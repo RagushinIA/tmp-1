@@ -13,8 +13,6 @@
 
 use Bitrix\Iblock\SectionPropertyTable;
 
-$templatePath = $this->GetFolder();
-
 $this->setFrameMode(true);
 $templateData = array(
 	'TEMPLATE_CLASS' => 'bx-'.$arParams['TEMPLATE_THEME']
@@ -24,16 +22,13 @@ if (isset($templateData['TEMPLATE_THEME']))
 {
 	$this->addExternalCss($templateData['TEMPLATE_THEME']);
 }
-
 ?>
-
-<?$this->SetViewTarget('left_area');?>
 <div class="smart-filter mb-4 <?=$templateData["TEMPLATE_CLASS"]?> <?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL") echo "smart-filter-horizontal"?>">
 	<div class="smart-filter-section">
 
 		<div class="smart-filter-title"><?echo GetMessage("CT_BCSF_FILTER_TITLE")?></div>
 
-    <form name="<?echo $arResult["FILTER_NAME"]."_form"?>" action="<?echo $arResult["FORM_ACTION"]?>" method="get" class="smart-filter-form">
+		<form name="<?echo $arResult["FILTER_NAME"]."_form"?>" action="<?echo $arResult["FORM_ACTION"]?>" method="get" class="smart-filter-form">
 
 			<?foreach($arResult["HIDDEN"] as $arItem):?>
 				<input type="hidden" name="<?echo $arItem["CONTROL_NAME"]?>" id="<?echo $arItem["CONTROL_ID"]?>" value="<?echo $arItem["HTML_VALUE"]?>" />
@@ -740,4 +735,7 @@ if (isset($templateData['TEMPLATE_THEME']))
 
 	</div>
 </div>
-<?$this->EndViewTarget('left_area');?>
+
+<script type="text/javascript">
+	var smartFilter = new JCSmartFilter('<?echo CUtil::JSEscape($arResult["FORM_ACTION"])?>', '<?=CUtil::JSEscape($arParams["FILTER_VIEW_MODE"])?>', <?=CUtil::PhpToJSObject($arResult["JS_FILTER_PARAMS"])?>);
+</script>
